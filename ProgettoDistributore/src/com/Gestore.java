@@ -4,45 +4,92 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Gestore extends Lista {
-	public Gestore() {
-		super();
-
-	}
+public class Gestore extends ListaBevande {
+	
 
 	Scanner scan = new Scanner(System.in);
 
 	public void visInventario() { // metodo che mostra l'inventario completo, compreso di bavande esaurite
-		for (Prodotto p : lista)
-			p.toString();
+		System.out.println(ListaBevande.loadBevanda().toString());
 	}
-
-	 public void addProdotto() {// metodo che aggiunge un nuovo prodotto alla lista
-		System.out.println("Inserire dati del nuovo prodotto");
+	
+	// Aggiunge un nuovo prodotto
+	public void addProdotto() {
+		boolean vaBene = false;
+		boolean vaBenissimo = false;
+		double prezzo = 0;
+		int quantita = 0;
+		
+		// Aggiunge il nome della bevanda
+		System.out.println("Inserire nome bevanda:");
 		String nome = scan.next();
-		String codice = scan.next();
-		double prezzo = scan.nextDouble();
-		int quantita = scan.nextInt();
-		// Roba da sistemare
-		// Prodotto non poteva essere istanziato perchè astract
-		Prodotto p = new Bevanda(codice, nome, prezzo, quantita);
-		lista.add(p);
+		
+		// Aggiunge il codice della bevanda
+		System.out.println("Inserire codice bevanda:");
+		String codice = scan.next().toUpperCase();
+		
+		// Controlla se il codice esiste già
+		for (Bevanda bevanda : ListaBevande.loadBevanda()) {
+			do {
+				if (bevanda.getCodice().equals(codice)) {
+					System.out.println("Codice già esistente, riprova");
+					codice = scan.next().toUpperCase();
+				} else {
+					vaBenissimo = true;
+				}
+			} while (!vaBenissimo);
+				
+		}			
+		
+		// Aggiunge il prezzo della bevanda
+		do {
+			try {
+				System.out.println("Inserire prezzo bevanda:");
+				prezzo = scan.nextDouble();
+				vaBene = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Inserire prezzo bevanda:");
+				scan.next();
+				vaBene = false;
+			}
+		} while (!vaBene);
+		vaBene = false;
+
+		// Aggiunge la quantità della bevanda
+		do {
+			try {
+				System.out.println("Inserire quantita bevanda:");
+				quantita = scan.nextInt();
+				vaBene = true;
+			} catch (InputMismatchException e) {
+				System.out.println("Inserire quantità bevanda:");
+				scan.next();
+				vaBene = false;
+			}
+		} while (!vaBene);
+		vaBene = false;
+
+		Bevanda newProdotto = new Bevanda(codice, nome, prezzo, quantita);
+		ListaBevande.loadBevanda().add(newProdotto);
+		System.out.println("Prodotto aggiunto con successo");
 	}
 	
 
 	public void delBevanda() { // metodo per rimuovere una bevanda
 		System.out.println("Inserire codice del prodotto da rimuovere");
-		String codice = scan.next();
-		for (Prodotto p : lista) {
-			if (codice.equals(p.codice))
-				lista.remove(p);
+		String codice = scan.next().toUpperCase();
+		
+		for (Bevanda bevanda : ListaBevande.loadBevanda()) {
+			if (bevanda.getCodice().equals(codice)) {
+				ListaBevande.loadBevanda().remove(bevanda);
+			}
 		}
 	}
 
 	public void modBevanda() { // metodo che può modificare codice, nome, prezzo e quantità di una bevanda
 		System.out.println("Inserire codice del prodotto da modificare");
 		String codice = scan.next();
-		for (Prodotto p : lista) {
+		for (Prodotto p : ListaBevande.loadBevanda()) {
 			if (codice.equals(p.codice)) {
 				boolean run = true;
 				do {// menu per modificare i campi
@@ -83,7 +130,7 @@ public class Gestore extends Lista {
 	public void rifBevanda() {// metodo per aggiungere o rimuovere bevanda al rifornimento
 		System.out.println("Inserire codice del prodotto da rifornire: ");
 		String codice = scan.next();
-		for (Prodotto p : lista) {
+		for (Prodotto p : ListaBevande.loadBevanda()) {
 			if (codice.equals(p.codice)) {
 				System.out.println("Inserisci numero di prodotti da aggiungere(usa '-' per rimuovere)");
 				int numero = scan.nextInt();
@@ -144,21 +191,23 @@ public class Gestore extends Lista {
 
 		Gestore gestore = new Gestore();
 		System.out.println("Benvenuto!");
-		System.out.println("Seleziona un opzione: ");
-		System.out.println("1) Visualizza inventario completo");
-		System.out.println("2) Aggiungere una nuova bevanda ");
-		System.out.println("3) Rimuovere una bevanda");
-		System.out.println("4) Modificare una bevanda ");
-		System.out.println("5) Rifornire una bevanda ");
-		System.out.println("6) Visualizzare l'incasso totale ");
-		System.out.println("7) Resettare il credito inserito o l’incasso totale");
-		System.out.println("8) Uscire dalla modalità gestore ");
-		System.out.println("9) Spegni");
 
 		// Init variabili menu
 		int selectMenu = 0;
 		do {
 			try {
+				System.out.println(" ");
+				System.out.println("Seleziona un opzione: ");
+				System.out.println("1) Visualizza inventario completo");
+				System.out.println("2) Aggiungere una nuova bevanda ");
+				System.out.println("3) Rimuovere una bevanda");
+				System.out.println("4) Modificare una bevanda ");
+				System.out.println("5) Rifornire una bevanda ");
+				System.out.println("6) Visualizzare l'incasso totale ");
+				System.out.println("7) Resettare il credito inserito o l’incasso totale");
+				System.out.println("8) Uscire dalla modalità gestore ");
+				System.out.println("9) Spegni");
+				
 				selectMenu = scan.nextInt();
 				switch (selectMenu) {
 	

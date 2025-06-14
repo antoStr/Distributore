@@ -68,22 +68,23 @@ public abstract class DistributoreLogic {
 					if (inputUtente.equalsIgnoreCase(bevanda.getCodice()) && bevanda.getQuantita() > 0) {
 						System.out.println("Prezzo: " + bevanda.getPrezzo());
 						corretto = true;
-						prezzoMenu();
 						
 						// Programma di vendita
 						do {	
-							selezioneMoneta = scan.nextInt();
+							
 							// Controllo errore input
-							/*
 							do {
 								try {
+									prezzoMenu();
+									selezioneMoneta = scan.nextInt();
 									vaBene = true;
-								} catch (Exception e) {
+								} catch (InputMismatchException e) {
 									System.out.println("erors");
+									scan.nextLine();
+									vaBene = false;
 								}
 							} while (!vaBene);
-							*/								
-							
+															
 							// Selezione moneta da inserire
 							switch (selezioneMoneta) {
 							case 1: {

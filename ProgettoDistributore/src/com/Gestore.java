@@ -17,16 +17,18 @@ public class Gestore extends Lista {
 			p.toString();
 	}
 
-	public void addProdotto() {// metodo che aggiunge un nuovo prodotto alla lista
+	 public void addProdotto() {// metodo che aggiunge un nuovo prodotto alla lista
 		System.out.println("Inserire dati del nuovo prodotto");
 		String nome = scan.next();
 		String codice = scan.next();
 		double prezzo = scan.nextDouble();
 		int quantita = scan.nextInt();
-
-		Prodotto p = new Prodotto(codice, nome, prezzo, quantita);
+		// Roba da sistemare
+		// Prodotto non poteva essere istanziato perchè astract
+		Prodotto p = new Bevanda(codice, nome, prezzo, quantita);
 		lista.add(p);
 	}
+	
 
 	public void delBevanda() { // metodo per rimuovere una bevanda
 		System.out.println("Inserire codice del prodotto da rimuovere");
@@ -92,7 +94,6 @@ public class Gestore extends Lista {
 
 	public void visIncasso(double credito) { // metodo che mostra l'incasso totale
 		System.out.println("Credito: " + credito);
-
 	}
 
 	public double resetCredito(double credito) { // metodo per azzerare il credito
@@ -138,6 +139,10 @@ public class Gestore extends Lista {
 	}
 
 	public static void menuAdmin() {
+		Scanner scan = new Scanner(System.in);
+		boolean vaBene = false;
+
+		Gestore gestore = new Gestore();
 		System.out.println("Benvenuto!");
 		System.out.println("Seleziona un opzione: ");
 		System.out.println("1) Visualizza inventario completo");
@@ -152,66 +157,74 @@ public class Gestore extends Lista {
 
 		// Init variabili menu
 		int selectMenu = 0;
-
-		try {
-			selectMenu = scan.nextInt();
-			switch (selectMenu) {
-
-			case 1: {
-				System.out.println("Visualizza inventario completo ");
-				visInventario();
-				break;
-			}
-
-			case 2: {
-				System.out.println("Aggiungere una nuova bevanda ");
-				addProdotto();
-				break;
-			}
-
-			case 3: {
-				System.out.println("Rimuovere una bevanda ");
-				delBevanda();
-				break;
-			}
-
-			case 4: {
-				System.out.println("Modificare una bevanda: ");
-				modBevanda();
-			}
-
-			case 5: {
-				System.out.println("Rifornire una bevanda ");
-				rifBevanda();
-			}
-
-			case 6: {
-				System.out.println("Visualizzare l'incasso totale ");
-				visIncasso();
-			}
-
-			case 7: {
-				System.out.println("Resettare il credito inserito o l’incasso totale");
-				resetCredito();
-			}
-
-			case 8: {
-				System.out.println("Uscire dalla modalità gestore ");
-				exit();
-			}
-
-			case 9: {
-				System.out.println("Spegni");
-			}
-
-			default: {
+		do {
+			try {
+				selectMenu = scan.nextInt();
+				switch (selectMenu) {
+	
+				case 1: {
+					System.out.println("Visualizza inventario completo ");
+					gestore.visInventario();
+					break;
+				}
+	
+				case 2: {
+					System.out.println("Aggiungere una nuova bevanda ");
+					gestore.addProdotto();
+					break;
+				}
+	
+				case 3: {
+					System.out.println("Rimuovere una bevanda ");
+					gestore.delBevanda();
+					break;
+				}
+	
+				case 4: {
+					System.out.println("Modificare una bevanda: ");
+					gestore.modBevanda();
+					break;
+				}
+	
+				case 5: {
+					System.out.println("Rifornire una bevanda ");
+					gestore.rifBevanda();
+					break;
+				}
+	
+				case 6: {
+					System.out.println("Visualizzare l'incasso totale ");
+					gestore.visIncasso(0.0);
+					break;
+				}
+	
+				case 7: {
+					System.out.println("Resettare il credito inserito o l’incasso totale");
+					gestore.resetCredito(0.0);
+					break;
+				}
+	
+				case 8: {
+					System.out.println("Uscita dalla modalità gestore.");
+					gestore.exit(true);
+					vaBene = true;
+					break;
+				}
+	
+				case 9: {
+					System.out.println("Spegni");
+					break;
+				}
+	
+				default: {
+					System.out.println("Scelta non valida, riprova: ");
+				}
+				}
+			} catch (InputMismatchException e) {
 				System.out.println("Scelta non valida, riprova: ");
+				scan.nextLine();
 			}
-			}
-		} catch (InputMismatchException e) {
-			System.out.println("Scelta non valida, riprova: ");
-			scan.nextLine();
-		}
+		} while (!vaBene);
 
 	}
 }

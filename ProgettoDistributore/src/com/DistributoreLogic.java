@@ -59,7 +59,7 @@ public abstract class DistributoreLogic {
 		do {
 			// Controllo Admin
 			if (inputUtente.equals(admin)) {
-				System.out.println("bro sei un pro");
+				Gestore.menuAdmin();
 				
 			} else {
 				// Ricerca bevanda

@@ -74,16 +74,19 @@ public class Gestore extends ListaBevande {
 		System.out.println("Prodotto aggiunto con successo");
 	}
 	
-
-	public void delBevanda() { // metodo per rimuovere una bevanda
+	// Rimozione di un prodotto
+	public void delBevanda() { 
 		System.out.println("Inserire codice del prodotto da rimuovere");
 		String codice = scan.next().toUpperCase();
 		
+		// Controlla se esiste il codice
 		for (Bevanda bevanda : ListaBevande.loadBevanda()) {
 			if (bevanda.getCodice().equals(codice)) {
 				ListaBevande.loadBevanda().remove(bevanda);
+				break;
 			}
 		}
+		System.out.println("Prodotto eliminato con successo!");
 	}
 
 	public void modBevanda() { // metodo che può modificare codice, nome, prezzo e quantità di una bevanda

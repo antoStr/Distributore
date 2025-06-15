@@ -22,11 +22,11 @@ public class Gestore extends ListaProdotti {
 		
 		// Aggiunge il nome della bevanda
 		System.out.println("Inserire nome bevanda:");
-		String nome = scan.next();
+		String nome = scan.nextLine();
 		
 		// Aggiunge il codice della bevanda
 		System.out.println("Inserire codice bevanda:");
-		String codice = scan.next().toUpperCase();
+		String codice = scan.nextLine().toUpperCase();
 		
 		// Controlla se il codice esiste già
 		for (Prodotto prodotto : ListaProdotti.lista()) {
@@ -91,27 +91,42 @@ public class Gestore extends ListaProdotti {
 
 	public void modBevanda() { // metodo che può modificare codice, nome, prezzo e quantità di una bevanda
 		System.out.println("Inserire codice del prodotto da modificare");
+		System.out.println(" ");
 		System.out.println(ListaProdotti.lista());
 		String codice = scan.next().toUpperCase();
 		for (Prodotto prodotto : ListaProdotti.lista()) {
-			if (ListaProdotti.lista().equals(prodotto.getCodice())) {
+			if (prodotto.getCodice().equals(codice)) {
 				boolean run = true;
+				boolean vaBene = false;
+				int select = 0;
+				
 				do {// menu per modificare i campi
-					System.out.println("Seleziona campo da modificare");
-					System.out.println("1. codice");
-					System.out.println("2. nome");
-					System.out.println("3. prezzo");
-					System.out.println("4. esci");
-					int select = scan.nextInt();
+					do {
+						try {
+							System.out.println("Seleziona campo da modificare");
+							System.out.println("1. Codice");
+							System.out.println("2. Nome");
+							System.out.println("3. Prezzo");
+							System.out.println("4. Esci");
+							
+							select = scan.nextInt();
+							vaBene = true;
+						} catch (InputMismatchException e) {
+							System.out.println("Scelta non valida, riprova.");
+							scan.nextLine();
+							vaBene = false;
+						}
+					} while (!vaBene);
+					
 					switch (select) {
 					case 1:
 						System.out.println("Inserisci nuovo codice");
-						String newCod = scan.next();
+						String newCod = scan.nextLine();
 						prodotto.codice = newCod;
 						break;
 					case 2:
 						System.out.println("Inserisci nuovo nome");
-						String newNome = scan.next();
+						String newNome = scan.nextLine();
 						prodotto.nome = newNome;
 						break;
 					case 3:
@@ -133,12 +148,15 @@ public class Gestore extends ListaProdotti {
 
 	public void rifBevanda() {// metodo per aggiungere o rimuovere bevanda al rifornimento
 		System.out.println("Inserire codice del prodotto da rifornire: ");
-		String codice = scan.next();
-		for (Prodotto p : ListaProdotti.lista()) {
-			if (codice.equals(p.codice)) {
-				System.out.println("Inserisci numero di prodotti da aggiungere(usa '-' per rimuovere)");
+		String codice = scan.next().toUpperCase();
+		for (Prodotto prodotto : ListaProdotti.lista()) {
+			if (prodotto.getCodice().equals(codice)) {
+				System.out.println("Inserisci numero di prodotti da aggiungere");
+				System.out.println(" ");
+				System.out.println(ListaProdotti.lista());
 				int numero = scan.nextInt();
-				p.quantita += numero;
+				prodotto.quantita += numero;
+				System.out.println("Prodotto rifornito correttamente.");
 			}
 		}
 	}
@@ -148,7 +166,7 @@ public class Gestore extends ListaProdotti {
 	}
 
 	public double resetCredito(double credito) { // metodo per azzerare il credito
-		System.out.println("Credito azzerato");
+		System.out.println("Credito azzerato.");
 		credito = 0;
 		return credito;
 	}

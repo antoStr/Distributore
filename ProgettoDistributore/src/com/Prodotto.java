@@ -1,7 +1,5 @@
 package com;
 
-import java.util.Comparator;
-
 public abstract class Prodotto {
 	protected String codice;
 	protected String nome;
@@ -63,10 +61,9 @@ public abstract class Prodotto {
 		return "Prodotto [codice=" + codice + ", nome=" + nome + ", prezzo=" + prezzo + ", quantita=" + quantita + "]";
 	}
 	
-	
-	
-	
-	
+	public String toStringUser() {
+		return String.format("%s | %s, %.2f\u20AC", codice, nome, prezzo);
+	}
 	
 }
 

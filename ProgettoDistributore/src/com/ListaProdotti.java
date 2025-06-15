@@ -26,5 +26,13 @@ public abstract class ListaProdotti {
 		return listaProdotti;
 	}
 	
+	public static void stampaListaUtente() {
+		for (Prodotto prodotto : lista()) {
+			if (prodotto.getQuantita() > 0) {
+				System.out.println(prodotto.toStringUser());
+			}
+		}
+	}
+	
 
 }

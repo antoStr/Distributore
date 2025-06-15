@@ -4,13 +4,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Gestore extends ListaBevande {
+public class Gestore extends ListaProdotti {
 	
 
 	Scanner scan = new Scanner(System.in);
 
 	public void visInventario() { // metodo che mostra l'inventario completo, compreso di bavande esaurite
-		System.out.println(ListaBevande.loadBevanda().toString());
+		System.out.println(ListaProdotti.lista().toString());
 	}
 	
 	// Aggiunge un nuovo prodotto
@@ -29,9 +29,9 @@ public class Gestore extends ListaBevande {
 		String codice = scan.next().toUpperCase();
 		
 		// Controlla se il codice esiste già
-		for (Bevanda bevanda : ListaBevande.loadBevanda()) {
+		for (Prodotto prodotto : ListaProdotti.lista()) {
 			do {
-				if (bevanda.getCodice().equals(codice)) {
+				if (prodotto.getCodice().equals(codice)) {
 					System.out.println("Codice già esistente, riprova");
 					codice = scan.next().toUpperCase();
 				} else {
@@ -70,7 +70,7 @@ public class Gestore extends ListaBevande {
 		vaBene = false;
 
 		Bevanda newProdotto = new Bevanda(codice, nome, prezzo, quantita);
-		ListaBevande.loadBevanda().add(newProdotto);
+		ListaProdotti.lista().add(newProdotto);
 		System.out.println("Prodotto aggiunto con successo");
 	}
 	
@@ -80,9 +80,9 @@ public class Gestore extends ListaBevande {
 		String codice = scan.next().toUpperCase();
 		
 		// Controlla se esiste il codice
-		for (Bevanda bevanda : ListaBevande.loadBevanda()) {
-			if (bevanda.getCodice().equals(codice)) {
-				ListaBevande.loadBevanda().remove(bevanda);
+		for (Prodotto prodotto : ListaProdotti.lista()) {
+			if (prodotto.getCodice().equals(codice)) {
+				ListaProdotti.lista().remove(prodotto);
 				break;
 			}
 		}
@@ -91,9 +91,10 @@ public class Gestore extends ListaBevande {
 
 	public void modBevanda() { // metodo che può modificare codice, nome, prezzo e quantità di una bevanda
 		System.out.println("Inserire codice del prodotto da modificare");
-		String codice = scan.next();
-		for (Prodotto p : ListaBevande.loadBevanda()) {
-			if (codice.equals(p.codice)) {
+		System.out.println(ListaProdotti.lista());
+		String codice = scan.next().toUpperCase();
+		for (Prodotto prodotto : ListaProdotti.lista()) {
+			if (ListaProdotti.lista().equals(prodotto.getCodice())) {
 				boolean run = true;
 				do {// menu per modificare i campi
 					System.out.println("Seleziona campo da modificare");
@@ -106,17 +107,17 @@ public class Gestore extends ListaBevande {
 					case 1:
 						System.out.println("Inserisci nuovo codice");
 						String newCod = scan.next();
-						p.codice = newCod;
+						prodotto.codice = newCod;
 						break;
 					case 2:
 						System.out.println("Inserisci nuovo nome");
 						String newNome = scan.next();
-						p.nome = newNome;
+						prodotto.nome = newNome;
 						break;
 					case 3:
 						System.out.println("Inserisci nuovo prezzo");
 						double newPrz = scan.nextDouble();
-						p.prezzo = newPrz;
+						prodotto.prezzo = newPrz;
 						break;
 					case 4:
 						run = false;
@@ -133,7 +134,7 @@ public class Gestore extends ListaBevande {
 	public void rifBevanda() {// metodo per aggiungere o rimuovere bevanda al rifornimento
 		System.out.println("Inserire codice del prodotto da rifornire: ");
 		String codice = scan.next();
-		for (Prodotto p : ListaBevande.loadBevanda()) {
+		for (Prodotto p : ListaProdotti.lista()) {
 			if (codice.equals(p.codice)) {
 				System.out.println("Inserisci numero di prodotti da aggiungere(usa '-' per rimuovere)");
 				int numero = scan.nextInt();
@@ -142,8 +143,8 @@ public class Gestore extends ListaBevande {
 		}
 	}
 
-	public void visIncasso(double credito) { // metodo che mostra l'incasso totale
-		System.out.println("Credito: " + credito);
+	public static void visIncasso(double creditoDistributore) { // metodo che mostra l'incasso totale
+		System.out.println("Credito: " + creditoDistributore);
 	}
 
 	public double resetCredito(double credito) { // metodo per azzerare il credito
@@ -200,12 +201,12 @@ public class Gestore extends ListaBevande {
 		do {
 			try {
 				System.out.println(" ");
-				System.out.println("Seleziona un opzione: ");
+				System.out.println("Seleziona un opzione:");
 				System.out.println("1) Visualizza inventario completo");
-				System.out.println("2) Aggiungere una nuova bevanda ");
-				System.out.println("3) Rimuovere una bevanda");
-				System.out.println("4) Modificare una bevanda ");
-				System.out.println("5) Rifornire una bevanda ");
+				System.out.println("2) Aggiungere un nuovo prodotto");
+				System.out.println("3) Rimuovere un prodotto");
+				System.out.println("4) Modificare un prodotto");
+				System.out.println("5) Rifornire un prodotto");
 				System.out.println("6) Visualizzare l'incasso totale ");
 				System.out.println("7) Resettare il credito inserito o l’incasso totale");
 				System.out.println("8) Uscire dalla modalità gestore ");
@@ -216,12 +217,13 @@ public class Gestore extends ListaBevande {
 	
 				case 1: {
 					System.out.println("Visualizza inventario completo ");
+					System.out.println(" ");
 					gestore.visInventario();
 					break;
 				}
 	
 				case 2: {
-					System.out.println("Aggiungere una nuova bevanda ");
+					System.out.println("Aggiungere una nuova bevanda: ");
 					gestore.addProdotto();
 					break;
 				}
@@ -245,14 +247,14 @@ public class Gestore extends ListaBevande {
 				}
 	
 				case 6: {
-					System.out.println("Visualizzare l'incasso totale ");
-					gestore.visIncasso(0.0);
+					System.out.println("Incasso distributore:");
+					Gestore.visIncasso(DistributoreLogic.getCreditoDistributore());
 					break;
 				}
 	
 				case 7: {
-					System.out.println("Resettare il credito inserito o l’incasso totale");
-					gestore.resetCredito(0.0);
+					System.out.println("Azzeramento del credito.");
+					DistributoreLogic.resetCredito();
 					break;
 				}
 	
@@ -265,6 +267,8 @@ public class Gestore extends ListaBevande {
 	
 				case 9: {
 					System.out.println("Spegni");
+					vaBene = true;
+					System.out.println("Spegnimento distributore.");
 					break;
 				}
 	

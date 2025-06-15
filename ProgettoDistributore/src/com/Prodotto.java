@@ -64,7 +64,7 @@ public abstract class Prodotto {
 	public String toStringUser() {
 		return String.format("%s | %s, %.2f\u20AC", codice, nome, prezzo);
 	}
-	
+
 }
 
 

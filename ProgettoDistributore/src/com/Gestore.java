@@ -1,14 +1,14 @@
 package com;
 
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Gestore extends ListaProdotti {
 
 	Scanner scan = new Scanner(System.in);
-
-	public void visInventario() { // metodo che mostra l'inventario completo, compreso di bavande esaurite
+	
+	// Metodo che mostra l'inventario completo, compreso di bavande esaurite
+	public void visInventario() { 
 		System.out.println(ListaProdotti.lista().toString());
 	}
 
@@ -65,7 +65,11 @@ public class Gestore extends ListaProdotti {
 			try {
 				System.out.println("Inserire quantita bevanda:");
 				quantita = scan.nextInt();
-				vaBene = true;
+				if ( quantita < 0) {
+					System.out.println("Numero quantità non valida, riprova.");
+				} else {
+					vaBene = true;					
+				}
 			} catch (InputMismatchException e) {
 				System.out.println("Inserire quantità bevanda:");
 				scan.next();
@@ -95,9 +99,10 @@ public class Gestore extends ListaProdotti {
 		System.out.println("Prodotto eliminato con successo!");
 		scan.nextLine();
 	}
-
-	public void modBevanda() { // metodo che può modificare codice, nome, prezzo e quantità di una bevanda
-		System.out.println("Inserire codice del prodotto da modificare");
+	
+	// Metodo che può modificare codice, nome, prezzo e quantità di una bevanda
+	public void modBevanda() { 
+		System.out.println("Inserire codice del prodotto da modificare:");
 		System.out.println(" ");
 		System.out.println(ListaProdotti.lista());
 		String codice = scan.next().toUpperCase();
@@ -108,11 +113,13 @@ public class Gestore extends ListaProdotti {
 				boolean vaBenissimo = false;
 				double newPrz = 0;
 				int select = 0;
-
-				do {// menu per modificare i campi
+				
+				// Menu per modificare codice, nome, prezzo di un prodotto
+				do {
 					do {
 						try {
-							System.out.println("Seleziona campo da modificare");
+							System.out.println(" ");
+							System.out.println("Seleziona campo da modificare:");
 							System.out.println("1. Codice");
 							System.out.println("2. Nome");
 							System.out.println("3. Prezzo");
@@ -126,7 +133,8 @@ public class Gestore extends ListaProdotti {
 							vaBene = false;
 						}
 					} while (!vaBene);
-
+					
+					// Switch per selezione caso
 					switch (select) {
 					case 1:
 						System.out.println("Inserisci nuovo codice");
@@ -179,42 +187,79 @@ public class Gestore extends ListaProdotti {
 		scan.nextLine();
 	}
 
-	public void rifBevanda() {// metodo per aggiungere o rimuovere bevanda al rifornimento
-		System.out.println("Inserire codice del prodotto da rifornire: ");
-		String codice = scan.next().toUpperCase();
-		for (Prodotto prodotto : ListaProdotti.lista()) {
-			if (prodotto.getCodice().equals(codice)) {
-				System.out.println("Inserisci numero di prodotti da aggiungere");
-				System.out.println(" ");
-				System.out.println(ListaProdotti.lista());
-				int numero = scan.nextInt();
-				prodotto.quantita += numero;
-				System.out.println("Prodotto rifornito correttamente.");
+	// Metodo per rifornire un prodotto esistente
+	public void rifBevanda() {
+		boolean trovato = false;
+		boolean vaBene = false;
+		boolean vaBenissimo = false;
+		int numero = 0;
+		
+		// Controllo del prodotto in base all' input dell'utente
+		do {
+			System.out.println("Inserire codice del prodotto da rifornire: ");
+			System.out.println(" ");
+			System.out.println(ListaProdotti.lista());
+			String codice = scan.next().toUpperCase();
+			for (Prodotto prodotto : ListaProdotti.lista()) {
+				if (prodotto.getCodice().equals(codice)) {
+					System.out.println("Inserisci numero di prodotti da aggiungere");
+					System.out.println(" ");
+					
+					do {
+						try {
+							numero = scan.nextInt();
+							vaBenissimo = true;
+						} catch (InputMismatchException e) {
+							System.out.println("Input non corretto, riprova.");
+							scan.next();
+							vaBenissimo = false;
+						}
+					} while (!vaBenissimo);
+					
+					prodotto.quantita += numero;
+					System.out.println("Prodotto rifornito correttamente.");
+					trovato = true;
+					vaBene = true;
+					break;
+				} 
 			}
-		}
-		scan.nextLine();
-	}
 
-	public static void visIncasso(double creditoDistributore) { // metodo che mostra l'incasso totale
+			if (!trovato) {
+				System.out.println("Prodotto non trovato.");
+				System.out.println(" ");
+			}
+		} while (!vaBene);
+		
+		scan.nextLine();
+		trovato = false;
+		vaBene = false;
+	}
+	
+	// Metodo che mostra l'incasso totale del distributore
+	public static void visIncasso(double creditoDistributore) { 
 		System.out.printf("Credito: %.2f \u20AC \n", creditoDistributore);
 	}
-
-	public double resetCredito(double credito) { // metodo per azzerare il credito
+	
+	// Metodo per azzerare il credito del distributore
+	public double resetCredito(double credito) { 
 		System.out.println("Credito azzerato.");
 		credito = 0;
 		return credito;
 	}
 
+	//Metodo per uscire dal menù gestore
 	public boolean exit(boolean continua) {
 		continua = false;
 		return false;
 	}
-
+	
+	//Metodo per print menu
 	public void Menu() {
 		System.out.println("Menu");
 	}
-
-	public void inserisciPassword() {// metodo che chiede di reinserire la password o tornare indietro
+	
+	// Metodo che chiede di reinserire la password o tornare indietro - da implementare
+	public void inserisciPassword() {
 		System.out.println("1. Accedere al menu gestore. ");
 		System.out.println("Per uscire inserisci un numero diverso da 1. ");
 		int opzione = scan.nextInt();
@@ -243,6 +288,7 @@ public class Gestore extends ListaProdotti {
 		scan.nextLine();
 	}
 
+	// Menù gestore principale
 	public static void menuAdmin() {
 		Scanner scan = new Scanner(System.in);
 		boolean vaBene = false;
@@ -250,7 +296,7 @@ public class Gestore extends ListaProdotti {
 		Gestore gestore = new Gestore();
 		System.out.println("Benvenuto!");
 
-		// Init variabili menu
+		// Init variabili menu e vari casi per programma
 		int selectMenu = 0;
 		do {
 			try {
@@ -336,5 +382,7 @@ public class Gestore extends ListaProdotti {
 		} while (!vaBene);
 
 		scan.nextLine();
+		scan.close();
 	}
+	
 }

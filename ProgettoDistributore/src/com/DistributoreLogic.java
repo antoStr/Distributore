@@ -1,6 +1,5 @@
 package com;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -174,6 +173,8 @@ public abstract class DistributoreLogic {
 			inputUtente = scan.next();
 
 		} while (continua);
+		
+		scan.close();
 
 	}
 

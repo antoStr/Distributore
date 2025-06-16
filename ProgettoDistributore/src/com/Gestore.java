@@ -382,7 +382,6 @@ public class Gestore extends ListaProdotti {
 		} while (!vaBene);
 
 		scan.nextLine();
-		scan.close();
 	}
 	
 }

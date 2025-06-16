@@ -173,8 +173,6 @@ public abstract class DistributoreLogic {
 			inputUtente = scan.next();
 
 		} while (continua);
-		
-		scan.close();
 
 	}
 

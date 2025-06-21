@@ -34,6 +34,11 @@ src/
     ├── ProdottoNonTrovatoException.java  # Eccezione personalizzata
     └── PrezzoNonValidoException.java     # Eccezione personalizzata
 ```
+## Flowchart del Funzionamento
+
+![Immagine WhatsApp 2025-06-21 ore 16 12 18_7a7e8dc1](https://github.com/user-attachments/assets/e6317285-9c24-4990-9d61-8b8bc1d897e0)
+Questo flowchart descrive il funzionamento del distributore automatico comprendendo il funzionamento generale e l'accesso a funzionalità esterne.
+
 ## Utilizzo
 
 ### Modalità Utente
